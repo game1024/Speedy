@@ -1,0 +1,584 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>OpenSpeedy — Open-Source Game Speed Controller</title>
+  <meta name="description" content="The Best Open-Source Game Speed Controller. Adjust game speed on the fly with a modern UI, supporting x86/x64 processes. No kernel intrusion — Ring-3 level hooking.">
+  <meta property="og:title" content="OpenSpeedy">
+  <meta property="og:description" content="The Best Open-Source Game Speed Controller">
+  <meta property="og:image" content="https://github.com/user-attachments/assets/a82ceda2-9b7b-41e4-96dc-cd250c9bd3ff">
+  <meta property="og:type" content="website">
+  <meta name="twitter:card" content="summary">
+  <style>
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    :root {
+      --bg: #0d1117;
+      --bg-card: #161b22;
+      --bg-card-hover: #1c2333;
+      --border: #30363d;
+      --text: #e6edf3;
+      --text-secondary: #8b949e;
+      --accent: #4ecdc4;
+      --accent2: #58a6ff;
+      --accent3: #f78166;
+      --gradient: linear-gradient(135deg, #4ecdc4 0%, #44a08d 100%);
+      --gradient-hero: linear-gradient(135deg, #0d1117 0%, #161b22 40%, #1a2332 70%, #0d1117 100%);
+      --radius: 12px;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans", Helvetica, Arial, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ── Nav ──────────────────────── */
+    nav {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      z-index: 100;
+      background: rgba(13, 17, 23, 0.85);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
+    nav .nav-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 24px;
+      height: 56px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    nav .logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-weight: 700;
+      font-size: 1.2rem;
+      color: var(--text);
+      text-decoration: none;
+    }
+    nav .logo img {
+      width: 32px;
+      height: 32px;
+      border-radius: 8px;
+    }
+    nav .nav-links {
+      display: flex;
+      gap: 24px;
+      align-items: center;
+    }
+    nav .nav-links a {
+      color: var(--text-secondary);
+      text-decoration: none;
+      font-size: 0.9rem;
+      transition: color 0.2s;
+    }
+    nav .nav-links a:hover { color: var(--text); }
+
+    /* ── Hero ─────────────────────── */
+    #hero {
+      padding: 120px 24px 80px;
+      text-align: center;
+      background: var(--gradient-hero);
+      position: relative;
+      overflow: hidden;
+    }
+    #hero::before {
+      content: "";
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: radial-gradient(ellipse at 50% 0%, rgba(78, 205, 196, 0.08) 0%, transparent 60%);
+      pointer-events: none;
+    }
+    #hero .hero-logo {
+      width: 120px;
+      height: 120px;
+      border-radius: 24px;
+      margin-bottom: 28px;
+      box-shadow: 0 0 60px rgba(78, 205, 196, 0.2);
+      position: relative;
+    }
+    #hero h1 {
+      font-size: clamp(2.2rem, 5vw, 3.6rem);
+      font-weight: 800;
+      background: var(--gradient);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      position: relative;
+    }
+    #hero .tagline {
+      font-size: 1.15rem;
+      color: var(--text-secondary);
+      margin-top: 12px;
+      position: relative;
+    }
+    #hero .hero-actions {
+      margin-top: 36px;
+      display: flex;
+      gap: 16px;
+      justify-content: center;
+      flex-wrap: wrap;
+      position: relative;
+    }
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 12px 28px;
+      font-size: 1rem;
+      font-weight: 600;
+      border-radius: 8px;
+      text-decoration: none;
+      transition: all 0.25s;
+      cursor: pointer;
+      border: none;
+    }
+    .btn-primary {
+      background: var(--gradient);
+      color: #000;
+    }
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 28px rgba(78, 205, 196, 0.3);
+    }
+    .btn-outline {
+      background: transparent;
+      color: var(--text);
+      border: 1px solid var(--border);
+    }
+    .btn-outline:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+
+    /* ── Section ──────────────────── */
+    section {
+      padding: 80px 24px;
+    }
+    .section-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+    .section-title {
+      font-size: 2rem;
+      font-weight: 700;
+      text-align: center;
+      margin-bottom: 16px;
+    }
+    .section-subtitle {
+      text-align: center;
+      color: var(--text-secondary);
+      margin-bottom: 48px;
+      font-size: 1.05rem;
+    }
+
+    /* ── Features ─────────────────── */
+    #features {
+      background: var(--bg-card);
+    }
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 24px;
+    }
+    .feature-card {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 28px 24px;
+      transition: all 0.3s;
+    }
+    .feature-card:hover {
+      border-color: var(--accent);
+      transform: translateY(-4px);
+      box-shadow: 0 12px 32px rgba(0,0,0,0.3);
+    }
+    .feature-card .icon {
+      font-size: 2rem;
+      margin-bottom: 16px;
+    }
+    .feature-card h3 {
+      font-size: 1.1rem;
+      margin-bottom: 8px;
+    }
+    .feature-card p {
+      color: var(--text-secondary);
+      font-size: 0.92rem;
+    }
+
+    /* ── Hook Table ───────────────── */
+    .table-wrap {
+      overflow-x: auto;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+    th, td {
+      padding: 12px 16px;
+      text-align: left;
+      font-size: 0.92rem;
+    }
+    th {
+      background: var(--bg-card);
+      color: var(--text-secondary);
+      font-weight: 600;
+      border-bottom: 1px solid var(--border);
+    }
+    td {
+      border-bottom: 1px solid var(--border);
+    }
+    tr:last-child td { border-bottom: none; }
+    tr:hover td { background: rgba(78,205,196,0.03); }
+    td:first-child { font-family: "Consolas", "Cascadia Code", monospace; color: var(--accent2); }
+    td:nth-child(2) { font-family: "Consolas", "Cascadia Code", monospace; color: var(--text-secondary); }
+
+    /* ── Stats ────────────────────── */
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 16px;
+      margin-bottom: 40px;
+    }
+    .stat-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 20px;
+      text-align: center;
+      transition: all 0.3s;
+    }
+    .stat-card:hover {
+      border-color: var(--accent);
+      transform: translateY(-2px);
+    }
+    .stat-card .value {
+      font-size: 1.8rem;
+      font-weight: 700;
+      background: var(--gradient);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .stat-card .label {
+      font-size: 0.85rem;
+      color: var(--text-secondary);
+      margin-top: 4px;
+    }
+
+    /* ── Badges ───────────────────── */
+    .badges {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 16px;
+      align-items: center;
+    }
+    .badges a { display: inline-block; }
+
+    /* ── Warning ──────────────────── */
+    #warnings {
+      background: var(--bg-card);
+    }
+    .warning-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .warning-list li {
+      padding: 14px 20px;
+      background: var(--bg);
+      border: 1px solid #3d2e1e;
+      border-radius: 8px;
+      color: var(--accent3);
+      font-size: 0.92rem;
+    }
+    .warning-list li::before {
+      content: "⚠ ";
+    }
+
+    /* ── Footer ──────────────────── */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 40px 24px;
+      text-align: center;
+      color: var(--text-secondary);
+      font-size: 0.88rem;
+    }
+    footer a {
+      color: var(--accent2);
+      text-decoration: none;
+    }
+    footer a:hover { text-decoration: underline; }
+    footer .footer-links {
+      display: flex;
+      gap: 20px;
+      justify-content: center;
+      margin-bottom: 16px;
+      flex-wrap: wrap;
+    }
+
+    /* ── Responsive ──────────────── */
+    @media (max-width: 640px) {
+      nav .nav-links { display: none; }
+      #hero { padding: 100px 20px 60px; }
+      section { padding: 48px 20px; }
+      .features-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ─── NAV ──────────────────────── -->
+  <nav>
+    <div class="nav-inner">
+      <a class="logo" href="#hero">
+        <img src="https://github.com/user-attachments/assets/a82ceda2-9b7b-41e4-96dc-cd250c9bd3ff" alt="OpenSpeedy logo">
+        OpenSpeedy
+      </a>
+      <div class="nav-links">
+        <a href="#features">Features</a>
+        <a href="#how-it-works">How It Works</a>
+        <a href="#download">Download</a>
+        <a href="https://github.com/game1024/OpenSpeedy" target="_blank" rel="noopener">GitHub</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ─── HERO ────────────────────── -->
+  <section id="hero">
+    <img class="hero-logo" src="https://github.com/user-attachments/assets/a82ceda2-9b7b-41e4-96dc-cd250c9bd3ff" alt="OpenSpeedy">
+    <h1>OpenSpeedy</h1>
+    <p class="tagline">The Best Open-Source Game Speed Controller</p>
+    <div class="hero-actions">
+      <a class="btn btn-primary" href="https://github.com/game1024/OpenSpeedy/releases" target="_blank" rel="noopener">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+        Download
+      </a>
+      <a class="btn btn-outline" href="https://github.com/game1024/OpenSpeedy" target="_blank" rel="noopener">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.3 3.438 9.8 8.205 11.387.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.73.083-.73 1.205.085 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.418-1.305.762-1.604-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.605-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 21.795 24 17.295 24 12 24 5.37 18.63 0 12 0z"/></svg>
+        View on GitHub
+      </a>
+    </div>
+  </section>
+
+  <!-- ─── FEATURES ────────────────── -->
+  <section id="features">
+    <div class="section-inner">
+      <h2 class="section-title">Features</h2>
+      <p class="section-subtitle">Everything you need to control game speed</p>
+      <div class="features-grid">
+        <div class="feature-card">
+          <div class="icon">⚡</div>
+          <h3>Instant Speed Control</h3>
+          <p>Adjust game speed on the fly with global shortcuts or the intuitive slider. Changes take effect immediately.</p>
+        </div>
+        <div class="feature-card">
+          <div class="icon">🎨</div>
+          <h3>Modern UI</h3>
+          <p>Clean, responsive interface built with React and MUI. Dark theme with real-time speed dashboard.</p>
+        </div>
+        <div class="feature-card">
+          <div class="icon">🖥️</div>
+          <h3>x86 &amp; x64 Support</h3>
+          <p>Works with both 32-bit and 64-bit processes. Select any running process for targeted speed control.</p>
+        </div>
+        <div class="feature-card">
+          <div class="icon">🔒</div>
+          <h3>Ring-3 Safe</h3>
+          <p>No kernel intrusion, no driver installation. Pure user-mode API hooking — won't tamper with the system.</p>
+        </div>
+        <div class="feature-card">
+          <div class="icon">🌍</div>
+          <h3>12 Languages</h3>
+          <p>Full i18n support: English, 简体中文, 繁體中文, Deutsch, Français, 日本語, 한국어, Русский, Español, Nederlands, Português, हिन्दी.</p>
+        </div>
+        <div class="feature-card">
+          <div class="icon">🆓</div>
+          <h3>Free &amp; Open Source</h3>
+          <p>Licensed under GPLv3. No ads, no telemetry, no paywalls. Community-driven development.</p>
+        </div>
+        <div class="feature-card">
+          <div class="icon">⌨️</div>
+          <h3>Global Shortcuts</h3>
+          <p>Bind custom hotkeys for speed up, speed down, toggle, and presets. Control speed without leaving your game.</p>
+        </div>
+        <div class="feature-card">
+          <div class="icon">📊</div>
+          <h3>Process Dashboard</h3>
+          <p>Real-time process list with memory usage, PID, and architecture info. Sort and filter with ease.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── HOW IT WORKS ────────────── -->
+  <section id="how-it-works">
+    <div class="section-inner">
+      <h2 class="section-title">How It Works</h2>
+      <p class="section-subtitle">OpenSpeedy hooks Windows time APIs to manipulate the perception of time in target processes</p>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>API Function</th>
+              <th>Library</th>
+              <th>Purpose</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>Sleep</td><td>kernel32.dll</td><td>Thread sleep duration</td></tr>
+            <tr><td>SleepEx</td><td>kernel32.dll</td><td>Extended thread sleep</td></tr>
+            <tr><td>SetTimer</td><td>user32.dll</td><td>Message-based timer intervals</td></tr>
+            <tr><td>timeGetTime</td><td>winmm.dll</td><td>System uptime (ms)</td></tr>
+            <tr><td>GetTickCount</td><td>kernel32.dll</td><td>System uptime (ms)</td></tr>
+            <tr><td>GetTickCount64</td><td>kernel32.dll</td><td>System uptime (ms, 64-bit)</td></tr>
+            <tr><td>QueryPerformanceCounter</td><td>kernel32.dll</td><td>High-resolution performance counter</td></tr>
+            <tr><td>GetSystemTimeAsFileTime</td><td>kernel32.dll</td><td>System time</td></tr>
+            <tr><td>GetSystemTimePreciseAsFileTime</td><td>kernel32.dll</td><td>High-precision system time</td></tr>
+            <tr><td>SetWaitableTimer</td><td>kernel32.dll</td><td>Waitable timer setup</td></tr>
+            <tr><td>SetWaitableTimerEx</td><td>kernel32.dll</td><td>Extended waitable timer</td></tr>
+            <tr><td>WaitForSingleObject</td><td>kernel32.dll</td><td>Single-object wait timeout</td></tr>
+            <tr><td>WaitForMultipleObjects</td><td>kernel32.dll</td><td>Multiple-object wait timeout</td></tr>
+            <tr><td>WaitForSingleObjectEx</td><td>kernel32.dll</td><td>Extended single-object wait</td></tr>
+            <tr><td>WaitForMultipleObjectsEx</td><td>kernel32.dll</td><td>Extended multiple-object wait</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── DOWNLOAD ────────────────── -->
+  <section id="download" style="background: var(--bg-card);">
+    <div class="section-inner" style="text-align:center;">
+      <h2 class="section-title">Installation</h2>
+      <p class="section-subtitle">Get OpenSpeedy in seconds</p>
+
+      <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px; max-width: 700px; margin: 0 auto 40px;">
+        <div style="background:var(--bg); border:1px solid var(--border); border-radius:var(--radius); padding: 28px 24px;">
+          <div style="font-size:1.5rem; margin-bottom:8px;">📦</div>
+          <h3 style="margin-bottom:12px;">Winget</h3>
+          <code style="display:block; background:var(--bg-card); padding:12px 16px; border-radius:6px; font-size:0.88rem; text-align:left; border:1px solid var(--border);">winget install openspeedy</code>
+        </div>
+        <div style="background:var(--bg); border:1px solid var(--border); border-radius:var(--radius); padding: 28px 24px;">
+          <div style="font-size:1.5rem; margin-bottom:8px;">📥</div>
+          <h3 style="margin-bottom:12px;">Manual Download</h3>
+          <p style="color:var(--text-secondary); font-size:0.92rem; margin-bottom:16px;">Get the latest MSI installer from GitHub Releases</p>
+          <a class="btn btn-primary" href="https://github.com/game1024/OpenSpeedy/releases" target="_blank" rel="noopener" style="font-size:0.9rem; padding:10px 20px;">
+            Go to Releases
+          </a>
+        </div>
+      </div>
+
+      <div class="stats-grid" style="margin-top:32px;">
+        <div class="stat-card">
+          <div class="value" id="stat-stars">—</div>
+          <div class="label">GitHub Stars</div>
+        </div>
+        <div class="stat-card">
+          <div class="value" id="stat-downloads">—</div>
+          <div class="label">Total Downloads</div>
+        </div>
+        <div class="stat-card">
+          <div class="value" id="stat-version">v3.3.8</div>
+          <div class="label">Latest Version</div>
+        </div>
+        <div class="stat-card">
+          <div class="value">Windows</div>
+          <div class="label">Platform</div>
+        </div>
+      </div>
+
+      <div class="badges" style="margin-top:32px;">
+        <a href="https://www.producthunt.com/products/openspeedy?utm_source=badge-featured&utm_medium=badge" target="_blank" rel="noopener">
+          <img alt="Featured on Product Hunt" width="250" height="54" src="https://api.producthunt.com/widgets/embed-image/v1/featured.svg?post_id=1206701&theme=dark">
+        </a>
+        <a href="https://trendshift.io/repositories/17801" target="_blank" rel="noopener">
+          <img alt="Trendshift" width="250" height="55" src="https://trendshift.io/api/badge/trendshift/repositories/17801/monthly?language=C%2B%2B">
+        </a>
+        <a href="https://hellogithub.com/repository/975f473c56ad4369a1c30ac9aa5819e0" target="_blank" rel="noopener">
+          <img src="https://abroad.hellogithub.com/v1/widgets/recommend.svg?rid=975f473c56ad4369a1c30ac9aa5819e0&claim_uid=kmUCncHJr9SpNV7&theme=dark" alt="HelloGitHub" width="250" height="54">
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── WARNINGS ────────────────── -->
+  <section id="warnings">
+    <div class="section-inner">
+      <h2 class="section-title">Important Notes</h2>
+      <p class="section-subtitle">Please read before using OpenSpeedy</p>
+      <ul class="warning-list">
+        <li>This tool is for educational and research purposes only.</li>
+        <li>Some online games have anti-cheat systems — using this tool may result in account bans.</li>
+        <li>Excessive speed may cause game physics glitches or crashes.</li>
+        <li>Not recommended for use in competitive online games.</li>
+        <li>Open-source software without digital signatures may trigger false positives from antivirus software.</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- ─── FOOTER ──────────────────── -->
+  <footer>
+    <div class="footer-links">
+      <a href="https://github.com/game1024/OpenSpeedy" target="_blank" rel="noopener">GitHub</a>
+      <a href="https://github.com/game1024/OpenSpeedy/releases" target="_blank" rel="noopener">Releases</a>
+      <a href="https://github.com/game1024/OpenSpeedy/issues" target="_blank" rel="noopener">Issues</a>
+      <a href="https://github.com/game1024/OpenSpeedy/wiki" target="_blank" rel="noopener">Wiki</a>
+      <a href="https://github.com/game1024/OpenSpeedy/blob/master/LICENSE" target="_blank" rel="noopener">License</a>
+    </div>
+    <p>OpenSpeedy &copy; 2025–2026 <a href="https://github.com/game1024" target="_blank" rel="noopener">Game1024</a> — Licensed under GPLv3</p>
+  </footer>
+
+  <!-- ─── JS: fetch live stats ───── -->
+  <script>
+    (async () => {
+      try {
+        const repoResp = await fetch('https://api.github.com/repos/game1024/OpenSpeedy');
+        if (repoResp.ok) {
+          const repo = await repoResp.json();
+          document.getElementById('stat-stars').textContent =
+            repo.stargazers_count >= 1000
+              ? (repo.stargazers_count / 1000).toFixed(1) + 'k'
+              : repo.stargazers_count;
+        }
+      } catch {}
+      try {
+        const relResp = await fetch('https://api.github.com/repos/game1024/OpenSpeedy/releases?per_page=50');
+        if (relResp.ok) {
+          const releases = await relResp.json();
+          let total = 0;
+          releases.forEach(r => {
+            r.assets.forEach(a => { total += a.download_count; });
+          });
+          const el = document.getElementById('stat-downloads');
+          el.textContent = total >= 1000 ? (total / 1000).toFixed(1) + 'k' : total;
+        }
+      } catch {}
+    })();
+  </script>
+
+</body>
+</html>

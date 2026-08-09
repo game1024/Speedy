@@ -1,0 +1,10 @@
+node_modules/
+dist/
+src/
+src-tauri/
+src-bridge/
+*.ts
+*.tsx
+*.rs
+*.cpp
+*.h
