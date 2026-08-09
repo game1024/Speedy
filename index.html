@@ -24,10 +24,10 @@
       --border: #d0d7de;
       --text: #1f2328;
       --text-secondary: #656d76;
-      --accent: #e8453c;
+      --accent: #f27059;
       --accent2: #0969da;
       --accent3: #cf222e;
-      --gradient: linear-gradient(135deg, #ff4d3a 0%, #e8453c 100%);
+      --gradient: linear-gradient(135deg, #f4866f 0%, #f27059 100%);
       --gradient-hero: linear-gradient(135deg, #ffffff 0%, #f6f8fa 40%, #fff5f4 70%, #ffffff 100%);
       --radius: 12px;
     }
@@ -105,7 +105,7 @@
       left: -50%;
       width: 200%;
       height: 200%;
-      background: radial-gradient(ellipse at 50% 0%, rgba(232, 69, 60, 0.06) 0%, transparent 60%);
+      background: radial-gradient(ellipse at 50% 0%, rgba(242, 112, 89, 0.06) 0%, transparent 60%);
       pointer-events: none;
     }
     #hero .hero-logo {
@@ -113,7 +113,7 @@
       height: 120px;
       border-radius: 24px;
       margin-bottom: 28px;
-      box-shadow: 0 0 60px rgba(232, 69, 60, 0.15);
+      box-shadow: 0 0 60px rgba(242, 112, 89, 0.15);
       position: relative;
     }
     #hero h1 {
@@ -158,7 +158,7 @@
     }
     .btn-primary:hover {
       transform: translateY(-2px);
-      box-shadow: 0 8px 28px rgba(232, 69, 60, 0.25);
+      box-shadow: 0 8px 28px rgba(242, 112, 89, 0.25);
     }
     .btn-outline {
       background: transparent;
@@ -250,7 +250,7 @@
       border-bottom: 1px solid var(--border);
     }
     tr:last-child td { border-bottom: none; }
-    tr:hover td { background: rgba(232,69,60,0.04); }
+    tr:hover td { background: rgba(242,112,89,0.04); }
     td:first-child { font-family: "Consolas", "Cascadia Code", monospace; color: var(--accent2); }
     td:nth-child(2) { font-family: "Consolas", "Cascadia Code", monospace; color: var(--text-secondary); }
 
@@ -340,6 +340,138 @@
       flex-wrap: wrap;
     }
 
+    /* ── Animations: Keyframes ───── */
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(30px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to   { opacity: 1; }
+    }
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50%      { transform: translateY(-8px); }
+    }
+    @keyframes pulse {
+      0%, 100% { box-shadow: 0 0 0 0 rgba(242,112,89,0.3); }
+      50%      { box-shadow: 0 0 0 12px rgba(242,112,89,0); }
+    }
+    @keyframes shimmer {
+      0%   { background-position: -200% center; }
+      100% { background-position: 200% center; }
+    }
+    @keyframes slideInLeft {
+      from { opacity: 0; transform: translateX(-20px); }
+      to   { opacity: 1; transform: translateX(0); }
+    }
+    @keyframes scaleIn {
+      from { opacity: 0; transform: scale(0.9); }
+      to   { opacity: 1; transform: scale(1); }
+    }
+
+    /* ── Scroll-reveal base ──────── */
+    .reveal {
+      opacity: 0;
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+    .reveal.reveal-up    { transform: translateY(30px); }
+    .reveal.reveal-left  { transform: translateX(-20px); }
+    .reveal.reveal-scale { transform: scale(0.9); }
+    .reveal.visible {
+      opacity: 1;
+      transform: translate(0) scale(1);
+    }
+
+    /* ── Hero animations ─────────── */
+    #hero .hero-logo {
+      animation: fadeIn 0.8s ease-out, float 3s ease-in-out 0.8s infinite;
+    }
+    #hero h1 {
+      animation: fadeInUp 0.7s ease-out 0.15s both;
+    }
+    #hero .tagline {
+      animation: fadeInUp 0.7s ease-out 0.3s both;
+    }
+    #hero .hero-actions {
+      animation: fadeInUp 0.7s ease-out 0.45s both;
+    }
+
+    /* ── Feature card stagger ────── */
+    .feature-card.reveal.visible { transition-delay: var(--delay, 0s); }
+
+    /* ── Stat card hover ─────────── */
+    .stat-card {
+      transition: all 0.3s ease, box-shadow 0.3s ease;
+    }
+    .stat-card:hover {
+      box-shadow: 0 4px 20px rgba(242,112,89,0.12);
+    }
+
+    /* ── Table row stagger ───────── */
+    tbody tr.reveal.visible { transition-delay: var(--delay, 0s); }
+
+    /* ── Warning item slide ──────── */
+    .warning-list li.reveal.visible { transition-delay: var(--delay, 0s); }
+
+    /* ── Badge hover ─────────────── */
+    .badges a {
+      transition: transform 0.3s ease, opacity 0.3s ease;
+    }
+    .badges a:hover {
+      transform: translateY(-3px);
+      opacity: 0.85;
+    }
+
+    /* ── Nav scroll shadow ───────── */
+    nav.scrolled {
+      box-shadow: 0 1px 8px rgba(0,0,0,0.06);
+    }
+
+    /* ── Feature icon bounce ─────── */
+    .feature-card:hover .icon {
+      animation: float 0.6s ease-in-out;
+    }
+
+    /* ── Button pulse ────────────── */
+    .btn-primary:active {
+      transform: scale(0.97);
+    }
+    .btn-outline:active {
+      transform: scale(0.97);
+    }
+
+    /* ── Section title underline ─── */
+    .section-title {
+      position: relative;
+      display: inline-block;
+      width: 100%;
+    }
+    .section-title::after {
+      content: "";
+      position: absolute;
+      bottom: -6px;
+      left: 50%;
+      transform: translateX(-50%) scaleX(0);
+      width: 48px;
+      height: 3px;
+      background: var(--gradient);
+      border-radius: 2px;
+      transition: transform 0.4s ease;
+    }
+    .section-title.visible-underline::after {
+      transform: translateX(-50%) scaleX(1);
+    }
+
+    /* ── Download card hover ─────── */
+    #download .install-card {
+      transition: all 0.3s ease, box-shadow 0.3s ease;
+    }
+    #download .install-card:hover {
+      box-shadow: 0 4px 20px rgba(242,112,89,0.08);
+      border-color: var(--accent);
+    }
+
     /* ── Responsive ──────────────── */
     @media (max-width: 640px) {
       nav .nav-links { display: none; }
@@ -387,45 +519,45 @@
   <!-- ─── FEATURES ────────────────── -->
   <section id="features">
     <div class="section-inner">
-      <h2 class="section-title">Features</h2>
-      <p class="section-subtitle">Everything you need to control game speed</p>
+      <h2 class="section-title reveal reveal-up">Features</h2>
+      <p class="section-subtitle reveal reveal-up">Everything you need to control game speed</p>
       <div class="features-grid">
-        <div class="feature-card">
+        <div class="feature-card reveal reveal-up">
           <div class="icon">⚡</div>
           <h3>Instant Speed Control</h3>
           <p>Adjust game speed on the fly with global shortcuts or the intuitive slider. Changes take effect immediately.</p>
         </div>
-        <div class="feature-card">
+        <div class="feature-card reveal reveal-up">
           <div class="icon">🎨</div>
           <h3>Modern UI</h3>
           <p>Clean, responsive interface built with React and MUI. Dark theme with real-time speed dashboard.</p>
         </div>
-        <div class="feature-card">
+        <div class="feature-card reveal reveal-up">
           <div class="icon">🖥️</div>
           <h3>x86 &amp; x64 Support</h3>
           <p>Works with both 32-bit and 64-bit processes. Select any running process for targeted speed control.</p>
         </div>
-        <div class="feature-card">
+        <div class="feature-card reveal reveal-up">
           <div class="icon">🔒</div>
           <h3>Ring-3 Safe</h3>
           <p>No kernel intrusion, no driver installation. Pure user-mode API hooking — won't tamper with the system.</p>
         </div>
-        <div class="feature-card">
+        <div class="feature-card reveal reveal-up">
           <div class="icon">🌍</div>
           <h3>12 Languages</h3>
           <p>Full i18n support: English, 简体中文, 繁體中文, Deutsch, Français, 日本語, 한국어, Русский, Español, Nederlands, Português, हिन्दी.</p>
         </div>
-        <div class="feature-card">
+        <div class="feature-card reveal reveal-up">
           <div class="icon">🆓</div>
           <h3>Free &amp; Open Source</h3>
           <p>Licensed under GPLv3. No ads, no telemetry, no paywalls. Community-driven development.</p>
         </div>
-        <div class="feature-card">
+        <div class="feature-card reveal reveal-up">
           <div class="icon">⌨️</div>
           <h3>Global Shortcuts</h3>
           <p>Bind custom hotkeys for speed up, speed down, toggle, and presets. Control speed without leaving your game.</p>
         </div>
-        <div class="feature-card">
+        <div class="feature-card reveal reveal-up">
           <div class="icon">📊</div>
           <h3>Process Dashboard</h3>
           <p>Real-time process list with memory usage, PID, and architecture info. Sort and filter with ease.</p>
@@ -437,9 +569,9 @@
   <!-- ─── HOW IT WORKS ────────────── -->
   <section id="how-it-works">
     <div class="section-inner">
-      <h2 class="section-title">How It Works</h2>
-      <p class="section-subtitle">OpenSpeedy hooks Windows time APIs to manipulate the perception of time in target processes</p>
-      <div class="table-wrap">
+      <h2 class="section-title reveal reveal-up">How It Works</h2>
+      <p class="section-subtitle reveal reveal-up">OpenSpeedy hooks Windows time APIs to manipulate the perception of time in target processes</p>
+      <div class="table-wrap reveal reveal-scale">
         <table>
           <thead>
             <tr>
@@ -449,21 +581,21 @@
             </tr>
           </thead>
           <tbody>
-            <tr><td>Sleep</td><td>kernel32.dll</td><td>Thread sleep duration</td></tr>
-            <tr><td>SleepEx</td><td>kernel32.dll</td><td>Extended thread sleep</td></tr>
-            <tr><td>SetTimer</td><td>user32.dll</td><td>Message-based timer intervals</td></tr>
-            <tr><td>timeGetTime</td><td>winmm.dll</td><td>System uptime (ms)</td></tr>
-            <tr><td>GetTickCount</td><td>kernel32.dll</td><td>System uptime (ms)</td></tr>
-            <tr><td>GetTickCount64</td><td>kernel32.dll</td><td>System uptime (ms, 64-bit)</td></tr>
-            <tr><td>QueryPerformanceCounter</td><td>kernel32.dll</td><td>High-resolution performance counter</td></tr>
-            <tr><td>GetSystemTimeAsFileTime</td><td>kernel32.dll</td><td>System time</td></tr>
-            <tr><td>GetSystemTimePreciseAsFileTime</td><td>kernel32.dll</td><td>High-precision system time</td></tr>
-            <tr><td>SetWaitableTimer</td><td>kernel32.dll</td><td>Waitable timer setup</td></tr>
-            <tr><td>SetWaitableTimerEx</td><td>kernel32.dll</td><td>Extended waitable timer</td></tr>
-            <tr><td>WaitForSingleObject</td><td>kernel32.dll</td><td>Single-object wait timeout</td></tr>
-            <tr><td>WaitForMultipleObjects</td><td>kernel32.dll</td><td>Multiple-object wait timeout</td></tr>
-            <tr><td>WaitForSingleObjectEx</td><td>kernel32.dll</td><td>Extended single-object wait</td></tr>
-            <tr><td>WaitForMultipleObjectsEx</td><td>kernel32.dll</td><td>Extended multiple-object wait</td></tr>
+            <tr class="reveal reveal-left"><td>Sleep</td><td>kernel32.dll</td><td>Thread sleep duration</td></tr>
+            <tr class="reveal reveal-left"><td>SleepEx</td><td>kernel32.dll</td><td>Extended thread sleep</td></tr>
+            <tr class="reveal reveal-left"><td>SetTimer</td><td>user32.dll</td><td>Message-based timer intervals</td></tr>
+            <tr class="reveal reveal-left"><td>timeGetTime</td><td>winmm.dll</td><td>System uptime (ms)</td></tr>
+            <tr class="reveal reveal-left"><td>GetTickCount</td><td>kernel32.dll</td><td>System uptime (ms)</td></tr>
+            <tr class="reveal reveal-left"><td>GetTickCount64</td><td>kernel32.dll</td><td>System uptime (ms, 64-bit)</td></tr>
+            <tr class="reveal reveal-left"><td>QueryPerformanceCounter</td><td>kernel32.dll</td><td>High-resolution performance counter</td></tr>
+            <tr class="reveal reveal-left"><td>GetSystemTimeAsFileTime</td><td>kernel32.dll</td><td>System time</td></tr>
+            <tr class="reveal reveal-left"><td>GetSystemTimePreciseAsFileTime</td><td>kernel32.dll</td><td>High-precision system time</td></tr>
+            <tr class="reveal reveal-left"><td>SetWaitableTimer</td><td>kernel32.dll</td><td>Waitable timer setup</td></tr>
+            <tr class="reveal reveal-left"><td>SetWaitableTimerEx</td><td>kernel32.dll</td><td>Extended waitable timer</td></tr>
+            <tr class="reveal reveal-left"><td>WaitForSingleObject</td><td>kernel32.dll</td><td>Single-object wait timeout</td></tr>
+            <tr class="reveal reveal-left"><td>WaitForMultipleObjects</td><td>kernel32.dll</td><td>Multiple-object wait timeout</td></tr>
+            <tr class="reveal reveal-left"><td>WaitForSingleObjectEx</td><td>kernel32.dll</td><td>Extended single-object wait</td></tr>
+            <tr class="reveal reveal-left"><td>WaitForMultipleObjectsEx</td><td>kernel32.dll</td><td>Extended multiple-object wait</td></tr>
           </tbody>
         </table>
       </div>
@@ -473,16 +605,16 @@
   <!-- ─── DOWNLOAD ────────────────── -->
   <section id="download" style="background: var(--bg-card);">
     <div class="section-inner" style="text-align:center;">
-      <h2 class="section-title">Installation</h2>
-      <p class="section-subtitle">Get OpenSpeedy in seconds</p>
+      <h2 class="section-title reveal reveal-up">Installation</h2>
+      <p class="section-subtitle reveal reveal-up">Get OpenSpeedy in seconds</p>
 
       <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px; max-width: 700px; margin: 0 auto 40px;">
-        <div style="background:var(--bg); border:1px solid var(--border); border-radius:var(--radius); padding: 28px 24px;">
+        <div class="install-card reveal reveal-scale" style="background:var(--bg); border:1px solid var(--border); border-radius:var(--radius); padding: 28px 24px;">
           <div style="font-size:1.5rem; margin-bottom:8px;">📦</div>
           <h3 style="margin-bottom:12px;">Winget</h3>
           <code style="display:block; background:var(--bg-card); padding:12px 16px; border-radius:6px; font-size:0.88rem; text-align:left; border:1px solid var(--border);">winget install openspeedy</code>
         </div>
-        <div style="background:var(--bg); border:1px solid var(--border); border-radius:var(--radius); padding: 28px 24px;">
+        <div class="install-card reveal reveal-scale" style="background:var(--bg); border:1px solid var(--border); border-radius:var(--radius); padding: 28px 24px;">
           <div style="font-size:1.5rem; margin-bottom:8px;">📥</div>
           <h3 style="margin-bottom:12px;">Manual Download</h3>
           <p style="color:var(--text-secondary); font-size:0.92rem; margin-bottom:16px;">Get the latest MSI installer from GitHub Releases</p>
@@ -492,7 +624,7 @@
         </div>
       </div>
 
-      <div class="stats-grid" style="margin-top:32px;">
+      <div class="stats-grid reveal reveal-up" style="margin-top:32px;">
         <div class="stat-card">
           <div class="value" id="stat-stars">—</div>
           <div class="label">GitHub Stars</div>
@@ -511,7 +643,7 @@
         </div>
       </div>
 
-      <div class="badges" style="margin-top:32px;">
+      <div class="badges reveal reveal-up" style="margin-top:32px;">
         <a href="https://www.producthunt.com/products/openspeedy?utm_source=badge-featured&utm_medium=badge" target="_blank" rel="noopener">
           <img alt="Featured on Product Hunt" width="250" height="54" src="https://api.producthunt.com/widgets/embed-image/v1/featured.svg?post_id=1206701&theme=light">
         </a>
@@ -528,14 +660,14 @@
   <!-- ─── WARNINGS ────────────────── -->
   <section id="warnings">
     <div class="section-inner">
-      <h2 class="section-title">Important Notes</h2>
-      <p class="section-subtitle">Please read before using OpenSpeedy</p>
+      <h2 class="section-title reveal reveal-up">Important Notes</h2>
+      <p class="section-subtitle reveal reveal-up">Please read before using OpenSpeedy</p>
       <ul class="warning-list">
-        <li>This tool is for educational and research purposes only.</li>
-        <li>Some online games have anti-cheat systems — using this tool may result in account bans.</li>
-        <li>Excessive speed may cause game physics glitches or crashes.</li>
-        <li>Not recommended for use in competitive online games.</li>
-        <li>Open-source software without digital signatures may trigger false positives from antivirus software.</li>
+        <li class="reveal reveal-left">This tool is for educational and research purposes only.</li>
+        <li class="reveal reveal-left">Some online games have anti-cheat systems — using this tool may result in account bans.</li>
+        <li class="reveal reveal-left">Excessive speed may cause game physics glitches or crashes.</li>
+        <li class="reveal reveal-left">Not recommended for use in competitive online games.</li>
+        <li class="reveal reveal-left">Open-source software without digital signatures may trigger false positives from antivirus software.</li>
       </ul>
     </div>
   </section>
@@ -552,8 +684,40 @@
     <p>OpenSpeedy &copy; 2025–2026 <a href="https://github.com/game1024" target="_blank" rel="noopener">Game1024</a> — Licensed under GPLv3</p>
   </footer>
 
-  <!-- ─── JS: fetch live stats ───── -->
+  <!-- ─── JS: scroll animations + live stats ───── -->
   <script>
+    // ── Intersection Observer for scroll-reveal ──
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry, i) => {
+        if (entry.isIntersecting) {
+          // Stagger delay within groups
+          const siblings = entry.target.parentElement?.querySelectorAll('.reveal');
+          if (siblings && siblings.length > 1 && entry.target.dataset.staggered !== 'true') {
+            const index = Array.from(siblings).indexOf(entry.target);
+            entry.target.style.transitionDelay = (index * 0.08) + 's';
+            entry.target.dataset.staggered = 'true';
+          }
+          entry.target.classList.add('visible');
+        }
+      });
+    }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+    // ── Section title underline reveal ──
+    const titleObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) entry.target.classList.add('visible-underline');
+      });
+    }, { threshold: 0.5 });
+    document.querySelectorAll('.section-title').forEach(el => titleObserver.observe(el));
+
+    // ── Nav shadow on scroll ──
+    window.addEventListener('scroll', () => {
+      document.querySelector('nav').classList.toggle('scrolled', window.scrollY > 10);
+    });
+
+    // ── Fetch live stats ──
     (async () => {
       try {
         const repoResp = await fetch('https://api.github.com/repos/game1024/OpenSpeedy');
