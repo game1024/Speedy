@@ -10,6 +10,9 @@
   <meta property="og:image" content="https://github.com/user-attachments/assets/a82ceda2-9b7b-41e4-96dc-cd250c9bd3ff">
   <meta property="og:type" content="website">
   <meta name="twitter:card" content="summary">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
   <style>
     *, *::before, *::after {
       box-sizing: border-box;
@@ -38,11 +41,19 @@
     }
 
     body {
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans", Helvetica, Arial, sans-serif;
+      font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans", sans-serif;
       background: var(--bg);
       color: var(--text);
       line-height: 1.6;
       -webkit-font-smoothing: antialiased;
+    }
+
+    h1, h2, h3, .section-title {
+      font-family: "Space Grotesk", "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
+    }
+
+    code, pre, td:first-child, td:nth-child(2) {
+      font-family: "JetBrains Mono", "Cascadia Code", "Fira Code", "Consolas", monospace !important;
     }
 
     /* ── Nav ──────────────────────── */
@@ -70,6 +81,7 @@
       gap: 10px;
       font-weight: 700;
       font-size: 1.2rem;
+      font-family: "Space Grotesk", "Inter", sans-serif;
       color: var(--text);
       text-decoration: none;
     }
@@ -252,8 +264,8 @@
     }
     tr:last-child td { border-bottom: none; }
     tr:hover td { background: rgba(0,212,255,0.04); }
-    td:first-child { font-family: "Consolas", "Cascadia Code", monospace; color: var(--accent2); }
-    td:nth-child(2) { font-family: "Consolas", "Cascadia Code", monospace; color: var(--text-secondary); }
+    td:first-child { color: var(--accent2); }
+    td:nth-child(2) { color: var(--text-secondary); }
 
     /* ── Stats ────────────────────── */
     .stats-grid {
