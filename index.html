@@ -18,17 +18,17 @@
     }
 
     :root {
-      --bg: #0d1117;
-      --bg-card: #161b22;
-      --bg-card-hover: #1c2333;
-      --border: #30363d;
-      --text: #e6edf3;
-      --text-secondary: #8b949e;
-      --accent: #4ecdc4;
-      --accent2: #58a6ff;
-      --accent3: #f78166;
-      --gradient: linear-gradient(135deg, #4ecdc4 0%, #44a08d 100%);
-      --gradient-hero: linear-gradient(135deg, #0d1117 0%, #161b22 40%, #1a2332 70%, #0d1117 100%);
+      --bg: #ffffff;
+      --bg-card: #f6f8fa;
+      --bg-card-hover: #e8ecf0;
+      --border: #d0d7de;
+      --text: #1f2328;
+      --text-secondary: #656d76;
+      --accent: #e8453c;
+      --accent2: #0969da;
+      --accent3: #cf222e;
+      --gradient: linear-gradient(135deg, #ff4d3a 0%, #e8453c 100%);
+      --gradient-hero: linear-gradient(135deg, #ffffff 0%, #f6f8fa 40%, #fff5f4 70%, #ffffff 100%);
       --radius: 12px;
     }
 
@@ -50,7 +50,7 @@
       top: 0;
       width: 100%;
       z-index: 100;
-      background: rgba(13, 17, 23, 0.85);
+      background: rgba(255, 255, 255, 0.85);
       backdrop-filter: blur(12px);
       border-bottom: 1px solid var(--border);
     }
@@ -105,7 +105,7 @@
       left: -50%;
       width: 200%;
       height: 200%;
-      background: radial-gradient(ellipse at 50% 0%, rgba(78, 205, 196, 0.08) 0%, transparent 60%);
+      background: radial-gradient(ellipse at 50% 0%, rgba(232, 69, 60, 0.06) 0%, transparent 60%);
       pointer-events: none;
     }
     #hero .hero-logo {
@@ -113,7 +113,7 @@
       height: 120px;
       border-radius: 24px;
       margin-bottom: 28px;
-      box-shadow: 0 0 60px rgba(78, 205, 196, 0.2);
+      box-shadow: 0 0 60px rgba(232, 69, 60, 0.15);
       position: relative;
     }
     #hero h1 {
@@ -158,7 +158,7 @@
     }
     .btn-primary:hover {
       transform: translateY(-2px);
-      box-shadow: 0 8px 28px rgba(78, 205, 196, 0.3);
+      box-shadow: 0 8px 28px rgba(232, 69, 60, 0.25);
     }
     .btn-outline {
       background: transparent;
@@ -193,7 +193,7 @@
 
     /* ── Features ─────────────────── */
     #features {
-      background: var(--bg-card);
+      background: #f6f8fa;
     }
     .features-grid {
       display: grid;
@@ -210,7 +210,7 @@
     .feature-card:hover {
       border-color: var(--accent);
       transform: translateY(-4px);
-      box-shadow: 0 12px 32px rgba(0,0,0,0.3);
+      box-shadow: 0 12px 32px rgba(0,0,0,0.08);
     }
     .feature-card .icon {
       font-size: 2rem;
@@ -250,7 +250,7 @@
       border-bottom: 1px solid var(--border);
     }
     tr:last-child td { border-bottom: none; }
-    tr:hover td { background: rgba(78,205,196,0.03); }
+    tr:hover td { background: rgba(232,69,60,0.04); }
     td:first-child { font-family: "Consolas", "Cascadia Code", monospace; color: var(--accent2); }
     td:nth-child(2) { font-family: "Consolas", "Cascadia Code", monospace; color: var(--text-secondary); }
 
@@ -299,7 +299,7 @@
 
     /* ── Warning ──────────────────── */
     #warnings {
-      background: var(--bg-card);
+      background: #f6f8fa;
     }
     .warning-list {
       list-style: none;
@@ -309,8 +309,8 @@
     }
     .warning-list li {
       padding: 14px 20px;
-      background: var(--bg);
-      border: 1px solid #3d2e1e;
+      background: #fff8f5;
+      border: 1px solid #f1d9ce;
       border-radius: 8px;
       color: var(--accent3);
       font-size: 0.92rem;
@@ -513,13 +513,13 @@
 
       <div class="badges" style="margin-top:32px;">
         <a href="https://www.producthunt.com/products/openspeedy?utm_source=badge-featured&utm_medium=badge" target="_blank" rel="noopener">
-          <img alt="Featured on Product Hunt" width="250" height="54" src="https://api.producthunt.com/widgets/embed-image/v1/featured.svg?post_id=1206701&theme=dark">
+          <img alt="Featured on Product Hunt" width="250" height="54" src="https://api.producthunt.com/widgets/embed-image/v1/featured.svg?post_id=1206701&theme=light">
         </a>
         <a href="https://trendshift.io/repositories/17801" target="_blank" rel="noopener">
           <img alt="Trendshift" width="250" height="55" src="https://trendshift.io/api/badge/trendshift/repositories/17801/monthly?language=C%2B%2B">
         </a>
         <a href="https://hellogithub.com/repository/975f473c56ad4369a1c30ac9aa5819e0" target="_blank" rel="noopener">
-          <img src="https://abroad.hellogithub.com/v1/widgets/recommend.svg?rid=975f473c56ad4369a1c30ac9aa5819e0&claim_uid=kmUCncHJr9SpNV7&theme=dark" alt="HelloGitHub" width="250" height="54">
+          <img src="https://abroad.hellogithub.com/v1/widgets/recommend.svg?rid=975f473c56ad4369a1c30ac9aa5819e0&claim_uid=kmUCncHJr9SpNV7&theme=neutral" alt="HelloGitHub" width="250" height="54">
         </a>
       </div>
     </div>
