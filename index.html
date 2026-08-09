@@ -18,18 +18,19 @@
     }
 
     :root {
-      --bg: #ffffff;
-      --bg-card: #f6f8fa;
-      --bg-card-hover: #e8ecf0;
-      --border: #d0d7de;
-      --text: #1f2328;
-      --text-secondary: #656d76;
-      --accent: #f27059;
-      --accent2: #0969da;
-      --accent3: #cf222e;
-      --gradient: linear-gradient(135deg, #f4866f 0%, #f27059 100%);
-      --gradient-hero: linear-gradient(135deg, #ffffff 0%, #f6f8fa 40%, #fff5f4 70%, #ffffff 100%);
+      --bg: #0a0e1a;
+      --bg-card: #111827;
+      --bg-card-hover: #1a2332;
+      --border: #1e2d4a;
+      --text: #e2e8f0;
+      --text-secondary: #94a3b8;
+      --accent: #00d4ff;
+      --accent2: #60a5fa;
+      --accent3: #f87171;
+      --gradient: linear-gradient(135deg, #00d4ff 0%, #7c3aed 100%);
+      --gradient-hero: linear-gradient(135deg, #0a0e1a 0%, #111827 40%, #0f1729 70%, #0a0e1a 100%);
       --radius: 12px;
+      --glow: 0 0 30px rgba(0,212,255,0.15);
     }
 
     html {
@@ -50,7 +51,7 @@
       top: 0;
       width: 100%;
       z-index: 100;
-      background: rgba(255, 255, 255, 0.85);
+      background: rgba(10, 14, 26, 0.85);
       backdrop-filter: blur(12px);
       border-bottom: 1px solid var(--border);
     }
@@ -105,7 +106,7 @@
       left: -50%;
       width: 200%;
       height: 200%;
-      background: radial-gradient(ellipse at 50% 0%, rgba(242, 112, 89, 0.06) 0%, transparent 60%);
+      background: radial-gradient(ellipse at 50% 0%, rgba(0,212,255,0.06) 0%, transparent 60%);
       pointer-events: none;
     }
     #hero .hero-logo {
@@ -113,7 +114,7 @@
       height: 120px;
       border-radius: 24px;
       margin-bottom: 28px;
-      box-shadow: 0 0 60px rgba(242, 112, 89, 0.15);
+      box-shadow: 0 0 80px rgba(0,212,255,0.2), 0 0 40px rgba(124,58,237,0.1);
       position: relative;
     }
     #hero h1 {
@@ -154,11 +155,11 @@
     }
     .btn-primary {
       background: var(--gradient);
-      color: #000;
+      color: #fff;
     }
     .btn-primary:hover {
       transform: translateY(-2px);
-      box-shadow: 0 8px 28px rgba(242, 112, 89, 0.25);
+      box-shadow: 0 8px 28px rgba(0,212,255,0.25);
     }
     .btn-outline {
       background: transparent;
@@ -193,7 +194,7 @@
 
     /* ── Features ─────────────────── */
     #features {
-      background: #f6f8fa;
+      background: var(--bg-card);
     }
     .features-grid {
       display: grid;
@@ -210,7 +211,7 @@
     .feature-card:hover {
       border-color: var(--accent);
       transform: translateY(-4px);
-      box-shadow: 0 12px 32px rgba(0,0,0,0.08);
+      box-shadow: 0 12px 32px rgba(0,0,0,0.4), 0 0 20px rgba(0,212,255,0.06);
     }
     .feature-card .icon {
       font-size: 2rem;
@@ -250,7 +251,7 @@
       border-bottom: 1px solid var(--border);
     }
     tr:last-child td { border-bottom: none; }
-    tr:hover td { background: rgba(242,112,89,0.04); }
+    tr:hover td { background: rgba(0,212,255,0.04); }
     td:first-child { font-family: "Consolas", "Cascadia Code", monospace; color: var(--accent2); }
     td:nth-child(2) { font-family: "Consolas", "Cascadia Code", monospace; color: var(--text-secondary); }
 
@@ -299,7 +300,7 @@
 
     /* ── Warning ──────────────────── */
     #warnings {
-      background: #f6f8fa;
+      background: var(--bg-card);
     }
     .warning-list {
       list-style: none;
@@ -309,8 +310,8 @@
     }
     .warning-list li {
       padding: 14px 20px;
-      background: #fff8f5;
-      border: 1px solid #f1d9ce;
+      background: rgba(248,113,113,0.06);
+      border: 1px solid rgba(248,113,113,0.15);
       border-radius: 8px;
       color: var(--accent3);
       font-size: 0.92rem;
@@ -354,8 +355,8 @@
       50%      { transform: translateY(-8px); }
     }
     @keyframes pulse {
-      0%, 100% { box-shadow: 0 0 0 0 rgba(242,112,89,0.3); }
-      50%      { box-shadow: 0 0 0 12px rgba(242,112,89,0); }
+      0%, 100% { box-shadow: 0 0 0 0 rgba(0,212,255,0.3); }
+      50%      { box-shadow: 0 0 0 12px rgba(0,212,255,0); }
     }
     @keyframes shimmer {
       0%   { background-position: -200% center; }
@@ -405,7 +406,7 @@
       transition: all 0.3s ease, box-shadow 0.3s ease;
     }
     .stat-card:hover {
-      box-shadow: 0 4px 20px rgba(242,112,89,0.12);
+      box-shadow: 0 4px 20px rgba(0,212,255,0.12);
     }
 
     /* ── Table row stagger ───────── */
@@ -425,7 +426,7 @@
 
     /* ── Nav scroll shadow ───────── */
     nav.scrolled {
-      box-shadow: 0 1px 8px rgba(0,0,0,0.06);
+      box-shadow: 0 1px 12px rgba(0,0,0,0.4);
     }
 
     /* ── Feature icon bounce ─────── */
@@ -468,7 +469,7 @@
       transition: all 0.3s ease, box-shadow 0.3s ease;
     }
     #download .install-card:hover {
-      box-shadow: 0 4px 20px rgba(242,112,89,0.08);
+      box-shadow: 0 4px 20px rgba(0,212,255,0.1);
       border-color: var(--accent);
     }
 
@@ -612,7 +613,7 @@
         <div class="install-card reveal reveal-scale" style="background:var(--bg); border:1px solid var(--border); border-radius:var(--radius); padding: 28px 24px;">
           <div style="font-size:1.5rem; margin-bottom:8px;">📦</div>
           <h3 style="margin-bottom:12px;">Winget</h3>
-          <code style="display:block; background:var(--bg-card); padding:12px 16px; border-radius:6px; font-size:0.88rem; text-align:left; border:1px solid var(--border);">winget install openspeedy</code>
+          <code style="display:block; background:var(--bg); padding:12px 16px; border-radius:6px; font-size:0.88rem; text-align:left; border:1px solid var(--border); color:var(--accent);">winget install openspeedy</code>
         </div>
         <div class="install-card reveal reveal-scale" style="background:var(--bg); border:1px solid var(--border); border-radius:var(--radius); padding: 28px 24px;">
           <div style="font-size:1.5rem; margin-bottom:8px;">📥</div>
@@ -645,13 +646,13 @@
 
       <div class="badges reveal reveal-up" style="margin-top:32px;">
         <a href="https://www.producthunt.com/products/openspeedy?utm_source=badge-featured&utm_medium=badge" target="_blank" rel="noopener">
-          <img alt="Featured on Product Hunt" width="250" height="54" src="https://api.producthunt.com/widgets/embed-image/v1/featured.svg?post_id=1206701&theme=light">
+          <img alt="Featured on Product Hunt" width="250" height="54" src="https://api.producthunt.com/widgets/embed-image/v1/featured.svg?post_id=1206701&theme=dark">
         </a>
         <a href="https://trendshift.io/repositories/17801" target="_blank" rel="noopener">
           <img alt="Trendshift" width="250" height="55" src="https://trendshift.io/api/badge/trendshift/repositories/17801/monthly?language=C%2B%2B">
         </a>
         <a href="https://hellogithub.com/repository/975f473c56ad4369a1c30ac9aa5819e0" target="_blank" rel="noopener">
-          <img src="https://abroad.hellogithub.com/v1/widgets/recommend.svg?rid=975f473c56ad4369a1c30ac9aa5819e0&claim_uid=kmUCncHJr9SpNV7&theme=neutral" alt="HelloGitHub" width="250" height="54">
+          <img src="https://abroad.hellogithub.com/v1/widgets/recommend.svg?rid=975f473c56ad4369a1c30ac9aa5819e0&claim_uid=kmUCncHJr9SpNV7&theme=dark" alt="HelloGitHub" width="250" height="54">
         </a>
       </div>
     </div>
